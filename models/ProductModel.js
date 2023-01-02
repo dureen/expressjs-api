@@ -3,21 +3,19 @@ const {DataTypes, Model} = require('sequelize');
 const sequelize = require('../config/sequelize').forSQLite;
 
 /**
- * Feedback Model
+ * Product Model
  */
-class FeedbackModel extends Model {}
+class ProductModel extends Model {}
 
-FeedbackModel.init({
+ProductModel.init({
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
   name: DataTypes.STRING,
-  email: DataTypes.TEXT,
-  content: {
-    type: DataTypes.TEXT,
-  },
+  name: DataTypes.STRING,
+  price: DataTypes.STRING,
 }, {
   sequelize,
   timestamps: true,
@@ -28,4 +26,4 @@ FeedbackModel.init({
   // underscored: true,
 });
 
-module.exports = FeedbackModel;
+module.exports = ProductModel;

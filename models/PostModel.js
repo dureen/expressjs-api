@@ -3,11 +3,11 @@ const {Sequelize, DataTypes, Model} = require('sequelize');
 const sequelize = require('../config/sequelize').forDialect;
 
 /**
- * Post model
+ * Post Model
  */
-class Post extends Model {}
+class PostModel extends Model {}
 
-Post.init({
+PostModel.init({
   id: {
     type: DataTypes.BIGINT,
     autoIncrement: true,

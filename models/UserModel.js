@@ -5,11 +5,10 @@ const sequelize = require('../config/sequelize').forDialect;
 
 const PROTECTED_ATTRIBUTES = ['password', 'remember_token'];
 /**
- * Model
+ * User Model
  */
-class User extends Model {
+class UserModel extends Model {
   /**
-   * Verify password
    * @param {String} thisPass the plain text password
    * @return {string}
    */
@@ -34,7 +33,7 @@ class User extends Model {
   }
 }
 
-User.init({
+UserModel.init({
   id: {
     type: DataTypes.BIGINT,
     autoIncrement: true,
@@ -81,4 +80,4 @@ User.init({
   tableName: 'users',
 });
 
-module.exports = User;
+module.exports = UserModel;
