@@ -7,75 +7,41 @@
 // eslint-disable-next-line new-cap
 const router = require('express').Router();
 
-// book
-router.get('/books', (req, res) => {
-  res.send({
-    book: 'Hello World!',
-  });
-});
-
-router.get('/books/:bookId', (req, res) => {
-  res.send(req.params);
-});
-
-router.post('/books', (req, res) => {
-  res.send('/POST');
-});
-
-router.put('/books/:bookId', (req, res) => {
-  res.send('/PUT ' + req.params.bookId);
-});
-
-router.delete('/books/:bookId', (req, res) => {
-  res.send('/delete ' + req.params.bookId);
-});
+// controllers
+const bookController = require('../controllers/BookController');
+const postController = require('../controllers/PostController');
+const productController = require('../controllers/ProductController');
+const userController = require('../controllers/UserController');
 
 
-// Post
-router.get('/post', (req, res) => {
-  res.send({
-    book: 'Hello World!',
-  });
-});
-
-router.get('/post/:postId', (req, res) => {
-  res.send(req.params);
-});
-
-router.post('/post', (req, res) => {
-  res.send('/POST');
-});
-
-router.put('/post/:postId', (req, res) => {
-  res.send('/PUT ' + req.params.postId);
-});
-
-router.delete('/post/:postId', (req, res) => {
-  res.send('/delete ' + req.params.postId);
-});
+// book API
+router.get('/books', bookController.index);
+router.post('/books', bookController.store);
+router.get('/books/:bookId', bookController.show);
+router.put('/books/:bookId', bookController.update);
+router.delete('/books/:bookId', bookController.destroy);
 
 
-// Product
-router.get('/product', (req, res) => {
-  res.send({
-    book: 'Hello World!',
-  });
-});
+// Post API
+router.get('/post', postController.index);
+router.post('/post', postController.store);
+router.get('/post/:postId', postController.show);
+router.put('/post/:postId', postController.update);
+router.delete('/post/:postId', postController.destroy);
 
-router.get('/product/:productId', (req, res) => {
-  res.send(req.params);
-});
 
-router.post('/product', (req, res) => {
-  res.send('/POST');
-});
+// Product API
+router.get('/product', productController.index);
+router.post('/product', productController.store);
+router.get('/product/:productId', productController.show);
+router.put('/product/:productId', productController.update);
+router.delete('/product/:productId', productController.destroy);
 
-router.put('/product/:productId', (req, res) => {
-  res.send('/PUT ' + req.params.productId);
-});
-
-router.delete('/product/:productId', (req, res) => {
-  res.send('/delete ' + req.params.productId);
-});
+// User API
+router.get('/user', userController.index);
+router.post('/user', userController.store);
+router.get('/user/:userId', userController.show);
+router.put('/user/:userId', userController.update);
+router.delete('/user/:userId', userController.destroy);
 
 module.exports = router;
