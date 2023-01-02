@@ -21,9 +21,10 @@ const env = require('./env');
  * -----------------------------------------------------------------------------
  */
 
-exports.forSQLite = new Sequelize({
+exports.getSqlite = new Sequelize({
   dialect: 'sqlite',
   storage: `${env.sqlitePath}${env.sqliteDatabase}`,
+  logging: env.dbLogging,
 });
 
 /**
@@ -35,12 +36,13 @@ exports.forSQLite = new Sequelize({
  * -----------------------------------------------------------------------------
  */
 
-exports.forDialect = new Sequelize(
+exports.getDialect = new Sequelize(
     env.dbDatabase,
     env.dbUsername,
     env.dbPassword,
     {
       host: env.dbHostname,
       dialect: env.dbConnection,
+      logging: env.sqliteLogging,
     },
 );

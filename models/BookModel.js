@@ -1,6 +1,6 @@
 const {DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').forSQLite;
+const sequelize = require('../config/sequelize').getSqlite;
 
 /**
  * Book Model
@@ -21,8 +21,10 @@ BookModel.init({
   createdAt: true,
   updatedAt: false,
   // freezeTableName: true,
-  tableName: 'feedbacks',
+  tableName: 'books',
   // underscored: true,
 });
+
+BookModel.sync();
 
 module.exports = BookModel;

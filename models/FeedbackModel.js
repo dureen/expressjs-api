@@ -1,6 +1,6 @@
 const {DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').forSQLite;
+const sequelize = require('../config/sequelize').getSqlite;
 
 /**
  * Feedback Model

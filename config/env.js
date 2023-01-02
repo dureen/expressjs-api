@@ -9,7 +9,7 @@ require('dotenv').config() || '';
 // App Details
 exports.appName = process.env.AppName || 'ExpressJs API';
 exports.appEnv = process.env.AppEnv || 'local';
-exports.appDebug = process.env.AppDebug || true;
+exports.appDebug = (process.env.AppDebug==='true') ? true : false;
 exports.appURL = process.env.AppURL || 'http://localhost';
 exports.appPort = process.env.AppPort || 8080;
 
@@ -20,7 +20,10 @@ exports.dbPort = process.env.DBPort || 3306;
 exports.dbDatabase = process.env.DBDatabase || 'database-name';
 exports.dbUsername = process.env.DBUsername || 'root';
 exports.dbPassword = process.env.DBPassword || '';
+exports.dbLogging = (process.env.DBLogging==='true') ? true : false;
 
 // SQLite Databases
 exports.sqliteDatabase = process.env.SQLiteDatabase || 'data.sqlite';
 exports.sqlitePath = process.env.SQLitePath || 'databases/sqlite/';
+exports.sqliteLogging = (process.env.SQLiteLogging==='true') ? true : false;
+

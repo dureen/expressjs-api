@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt');
 const {Sequelize, DataTypes, Model} = require('sequelize');
 // import connection
-const sequelize = require('../config/sequelize').forDialect;
+const sequelize = require('../config/sequelize').getDialect;
 
+// PROTECTED_ATTRIBUTES doesn't work on raw options, please avoud raw:true
 const PROTECTED_ATTRIBUTES = ['password', 'remember_token'];
+
 /**
  * User Model
  */
@@ -47,7 +49,7 @@ UserModel.init({
   password: {
     type: DataTypes.STRING,
   },
-  role_level: DataTypes.SMALLINT,
+  level: DataTypes.SMALLINT,
   remember_token: DataTypes.STRING,
   createdAt: {
     field: 'created_at',

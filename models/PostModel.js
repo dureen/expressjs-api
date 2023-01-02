@@ -1,7 +1,7 @@
 const {Sequelize, DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').forDialect;
-
+const sequelize = require('../config/sequelize').getDialect;
+const UserModel = require('./UserModel');
 /**
  * Post Model
  */
@@ -42,3 +42,14 @@ PostModel.init({
   // freezeTableName: true,
   tableName: 'posts',
 });
+
+PostModel.belongsTo(UserModel, {
+  foreignKey: {
+    name: 'userId',
+    field: 'user_id',
+  },
+  onDelete: 'NO ACTION',
+  onUpdate: 'CASCADE',
+});
+
+module.exports = PostModel;

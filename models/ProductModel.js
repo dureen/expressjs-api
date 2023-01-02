@@ -1,6 +1,6 @@
 const {DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').forSQLite;
+const sequelize = require('../config/sequelize').getSqlite;
 
 /**
  * Product Model
@@ -22,8 +22,10 @@ ProductModel.init({
   createdAt: true,
   updatedAt: false,
   // freezeTableName: true,
-  tableName: 'feedbacks',
+  tableName: 'products',
   // underscored: true,
 });
+
+ProductModel.sync();
 
 module.exports = ProductModel;
