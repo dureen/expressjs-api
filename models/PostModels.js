@@ -1,6 +1,6 @@
 const {Sequelize, DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').dialects;
+const sequelize = require('../config/sequelize').forDialect;
 
 /**
  * Post model
