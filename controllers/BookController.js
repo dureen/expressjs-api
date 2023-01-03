@@ -1,14 +1,8 @@
 const BookModel = require('../models/BookModel');
 
 exports.index = async (req, res) => {
-  const data = await BookModel.findAll().catch(console.error);
-  if (!data) {
-    // code
-  } else {
-    // code
-  }
-  const jsonString = JSON.stringify(data, null, 2);
-  res.json(JSON.parse(jsonString));
+  const data = await BookModel.findAll();
+  res.json(resourceJson(data));
 };
 
 exports.store = async (req, res) => {
@@ -16,35 +10,18 @@ exports.store = async (req, res) => {
 };
 
 exports.show = async (req, res) => {
-  const data = await BookModel.findByPk(req.params.bookId)
-      .catch(console.error);
-  if (!data) {
-    // code
-  } else {
-    // code
-  }
-  const jsonString = JSON.stringify(data, null, 2);
-  return res.json(JSON.parse(jsonString));
+  const data = await BookModel.findByPk(req.params.bookId);
+  res.json(resourceJson(data));
 };
 
 exports.update = async (req, res) => {
-  const data = await BookModel.findByPk(req.params.bookId)
-      .catch(console.error);
-  if (!data) {
-    // code
-  } else {
-    // code
-  }
-  res.send('/PUT book id: ' + req.params.bookId);
+  const data = await BookModel.findByPk(req.params.bookId);
+  // res.send('/PUT book id: ' + req.params.bookId);
+  res.json(resourceJson(data));
 };
 
 exports.destroy = async (req, res) => {
-  const data = await BookModel.findByPk(req.params.bookId)
-      .catch(console.error);
-  if (!data) {
-    // code
-  } else {
-    // code
-  }
-  res.send('/DELETE book id: ' + req.params.bookId);
+  const data = await BookModel.findByPk(req.params.bookId);
+  // res.send('/DELETE book id: ' + req.params.bookId);
+  res.json(resourceJson(data));
 };
