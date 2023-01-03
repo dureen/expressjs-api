@@ -1,9 +1,13 @@
 const BookModel = require('../models/BookModel');
 
 exports.index = async (req, res) => {
-  // res.send('/GET index of books');
-  const books = await BookModel.findAll().catch(console.error);
-  const jsonString = JSON.stringify(books, null, 2);
+  const data = await BookModel.findAll().catch(console.error);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
+  const jsonString = JSON.stringify(data, null, 2);
   res.json(JSON.parse(jsonString));
 };
 
@@ -12,17 +16,35 @@ exports.store = async (req, res) => {
 };
 
 exports.show = async (req, res) => {
-  // res.send('/GET book id: ' + req.params.bookId);
-  const book = await BookModel.findByPk(req.params.bookId)
+  const data = await BookModel.findByPk(req.params.bookId)
       .catch(console.error);
-  const jsonString = JSON.stringify(book, null, 2);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
+  const jsonString = JSON.stringify(data, null, 2);
   return res.json(JSON.parse(jsonString));
 };
 
 exports.update = async (req, res) => {
+  const data = await BookModel.findByPk(req.params.bookId)
+      .catch(console.error);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
   res.send('/PUT book id: ' + req.params.bookId);
 };
 
 exports.destroy = async (req, res) => {
+  const data = await BookModel.findByPk(req.params.bookId)
+      .catch(console.error);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
   res.send('/DELETE book id: ' + req.params.bookId);
 };

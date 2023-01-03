@@ -1,9 +1,14 @@
 const ProductModel = require('../models/ProductModel');
 
 exports.index = async (req, res) => {
-  // res.send('/GET index of produtcs');
-  const products = await ProductModel.findAll().catch(console.error);
-  const jsonString = JSON.stringify(products, null, 2);
+  const data = await ProductModel.findAll()
+      .catch(console.error);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
+  const jsonString = JSON.stringify(data, null, 2);
   res.json(JSON.parse(jsonString));
 };
 
@@ -12,17 +17,35 @@ exports.store = async (req, res) => {
 };
 
 exports.show = async (req, res) => {
-  // res.send('/GET product id: ' + req.params.productId);
-  const product = await ProductModel.findByPk(req.params.productId)
+  const data = await ProductModel.findByPk(req.params.productId)
       .catch(console.error);
-  const jsonString = JSON.stringify(product, null, 2);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
+  const jsonString = JSON.stringify(data, null, 2);
   res.json(JSON.parse(jsonString));
 };
 
 exports.update = async (req, res) => {
+  const data = await ProductModel.findByPk(req.params.productId)
+      .catch(console.error);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
   res.send('/PUT product id: ' + req.params.productId);
 };
 
 exports.destroy = async (req, res) => {
+  const data = await ProductModel.findByPk(req.params.productId)
+      .catch(console.error);
+  if (!data) {
+    // code
+  } else {
+    // code
+  }
   res.send('/DELETE product id: ' + req.params.productId);
 };

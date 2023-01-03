@@ -5,7 +5,21 @@ const UserModel = require('./UserModel');
 /**
  * Post Model
  */
-class PostModel extends Model {}
+class PostModel extends Model {
+  protectedAttributes = [];
+
+  /**
+   * Hide protected attributes
+   * @return {array}
+   */
+  toJSON() {
+    const attributes = Object.assign({}, this.get());
+    for (const a of this.protectedAttributes) {
+      delete attributes[a];
+    }
+    return attributes;
+  }
+}
 
 PostModel.init({
   id: {

@@ -5,7 +5,21 @@ const sequelize = require('../config/sequelize').getSqlite;
 /**
  * Feedback Model
  */
-class FeedbackModel extends Model {}
+class FeedbackModel extends Model {
+  protectedAttributes = [];
+
+  /**
+   * Hide protected attributes
+   * @return {array}
+   */
+  toJSON() {
+    const attributes = Object.assign({}, this.get());
+    for (const a of this.protectedAttributes) {
+      delete attributes[a];
+    }
+    return attributes;
+  }
+}
 
 FeedbackModel.init({
   id: {

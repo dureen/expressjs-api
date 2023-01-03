@@ -3,32 +3,40 @@ const {Sequelize, DataTypes, Model} = require('sequelize');
 // import connection
 const sequelize = require('../config/sequelize').getDialect;
 
-// PROTECTED_ATTRIBUTES doesn't work on raw options, please avoud raw:true
-const PROTECTED_ATTRIBUTES = ['password', 'remember_token'];
-
 /**
- * User Model
+ * User Model Class
  */
 class UserModel extends Model {
+  protectedAttributes = [
+    'password',
+    'remember_token',
+  ];
+
   /**
-   * @param {String} thisPass the plain text password
-   * @return {string}
+   * @param {String} plainPassword string of plain password
+   * @return {boolean} boolean
    */
-  verifyPassword(thisPass) {
-    const hashPass = /^\$2y\$/.test(this.password) ?
-    '$2a$' + this.password.slice(4) : this.password;
-    const x = bcrypt.compareSync(thisPass, hashPass);
-    return x;
+  verifyPassword(plainPassword) {
+    let hashedPassword = this.password;
+    if (/^\$2y\$/.test(this.password)) {
+      hashedPassword = '$2a$' + this.password.slice(4);
+    }
+    return bcrypt.compareSync(plainPassword, hashedPassword);
   }
 
-  // From: https://gist.github.com/arivia/2afbf227595fb5db24149e69fa8736e7
   /**
-   * Get json data unprotected attributes
+   * ---------------------------------------------------------------------------
+   * Source: https://gist.github.com/arivia/2afbf227595fb5db24149e69fa8736e7
+   * ---------------------------------------------------------------------------
+   */
+
+  /**
+   * Hide protected attributes
    * @return {array}
    */
   toJSON() {
     const attributes = Object.assign({}, this.get());
-    for (const a of PROTECTED_ATTRIBUTES) {
+    for (const a of this.protectedAttributes) {
       delete attributes[a];
     }
     return attributes;

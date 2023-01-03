@@ -1,32 +1,33 @@
+const resourceJson = require('../resources/json');
+
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
 
 exports.index = async (req, res) => {
-  const posts = await PostModel.findAll({
+  const data = await PostModel.findAll({
     include: [{
       model: UserModel,
       attributes: ['name']},
     ],
-  }).catch(console.error);
-  const jsonString = JSON.stringify(posts, null, 2);
-  res.json(JSON.parse(jsonString));
+  });
+  res.json(resourceJson(data));
 };
 
 exports.store = async (req, res) => {
-  res.send('/POST post data');
+  res.send('/POST');
 };
 
 exports.show = async (req, res) => {
-  // res.send('/GET post id: ' + req.params.postId);
-  const post = await PostModel.findByPk(req.params.postId).catch(console.error);
-  const jsonString = JSON.stringify(post, null, 2);
-  res.json(JSON.parse(jsonString));
+  const data = await PostModel.findByPk(req.params.postId);
+  res.json(resourceJson(data, null));
 };
 
 exports.update = async (req, res) => {
-  res.send('/PUT post id: ' + req.params.postId);
+  const data = await PostModel.findByPk(req.params.postId);
+  res.json(resourceJson(data));
 };
 
 exports.destroy = async (req, res) => {
-  res.send('/DELETE post id: ' + req.params.postId);
+  const data = await PostModel.findByPk(req.params.postId);
+  res.json(resourceJson(data));
 };
