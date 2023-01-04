@@ -37,8 +37,15 @@ PostModel.init({
   title: {
     type: DataTypes.STRING,
   },
-  content: {
+  slug: {
     type: DataTypes.STRING,
+  },
+  content: {
+    // eslint-disable-next-line new-cap
+    type: DataTypes.TEXT('long'),
+  },
+  status: {
+    type: DataTypes.TINYINT,
   },
   createdAt: {
     field: 'created_at',

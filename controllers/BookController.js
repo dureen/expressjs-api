@@ -8,7 +8,19 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  res.send('/POST book data');
+  if (!req.body.name || !req.body.price) {
+    res.json(resJson(null, 'Precondition Failed.', 412, 0));
+  } else {
+    const book = await BookModel.create({
+      name: req.body.name,
+      price: req.body.price,
+    });
+    if (!book) {
+      res.json(resJson(null, 'Precondition Failed.', 412, 0));
+    } else {
+      res.json(resJson(book, 'Created.', 201));
+    }
+  }
 };
 
 exports.show = async (req, res) => {
@@ -20,10 +32,22 @@ exports.show = async (req, res) => {
   }
 };
 
+// in-progress, don't expect it will work
 exports.update = async (req, res) => {
   const book = await BookModel.findByPk(req.params.bookId);
-  // res.send('/PUT book id: ' + req.params.bookId);
-  res.json(resJson(book));
+  if (!req.body.name || !req.body.price) {
+    res.json(resJson(null, 'Precondition Failed.', 412, 0));
+  } else {
+    const book = await BookModel.create({
+      name: req.body.name,
+      price: req.body.price,
+    });
+    if (!book) {
+      res.json(resJson(null, 'Precondition Failed.', 412, 0));
+    } else {
+      res.json(resJson(book, 'Created.', 201));
+    }
+  }
 };
 
 exports.destroy = async (req, res) => {

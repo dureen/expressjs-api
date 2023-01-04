@@ -35,12 +35,13 @@ ProductModel.init({
   sequelize,
   timestamps: true,
   createdAt: true,
-  updatedAt: false,
+  updatedAt: true,
   // freezeTableName: true,
   tableName: 'products',
   // underscored: true,
 });
 
+ProductModel.drop();
 ProductModel.sync();
 
 module.exports = ProductModel;

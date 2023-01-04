@@ -14,8 +14,12 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  // res.send('/POST');
-  console.log('something');
+  res.send('/POST');
+  // const userId = req.body.userId;
+  // const title = req.body.title;
+  // const slug = title;
+  // const content = req.body.content;
+  // const status = req.body.status;
   // res.json(resJson(posts, 'Created.', 201));
 };
 

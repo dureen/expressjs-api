@@ -33,12 +33,13 @@ BookModel.init({
   sequelize,
   timestamps: true,
   createdAt: true,
-  updatedAt: false,
+  updatedAt: true,
   // freezeTableName: true,
   tableName: 'books',
   // underscored: true,
 });
 
+// BookModel.drop();
 BookModel.sync();
 
 module.exports = BookModel;

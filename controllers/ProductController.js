@@ -8,7 +8,19 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  res.send('/POST product data');
+  if (!req.body.name || !req.body.price) {
+    res.json(resJson(null, 'Precondition Failed.', 412, 0));
+  } else {
+    const product = await ProductModel.create({
+      name: req.body.name,
+      price: req.body.price,
+    });
+    if (!product) {
+      res.json(resJson(null, 'Precondition Failed.', 412, 0));
+    } else {
+      res.json(resJson(product, 'Created.', 201));
+    }
+  }
 };
 
 exports.show = async (req, res) => {
@@ -20,10 +32,22 @@ exports.show = async (req, res) => {
   }
 };
 
+// in-progress, don't expect it will work
 exports.update = async (req, res) => {
   const product = await ProductModel.findByPk(req.params.productId);
-  // res.send('/PUT product id: ' + req.params.productId);
-  res.json(resJson(product));
+  if (!req.body.name || !req.body.price) {
+    res.json(resJson(null, 'Precondition Failed.', 412, 0));
+  } else {
+    const product = await ProductModel.create({
+      name: req.body.name,
+      price: req.body.price,
+    });
+    if (!product) {
+      res.json(resJson(null, 'Precondition Failed.', 412, 0));
+    } else {
+      res.json(resJson(product, 'Created.', 201));
+    }
+  }
 };
 
 exports.destroy = async (req, res) => {
