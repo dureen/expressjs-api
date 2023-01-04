@@ -29,7 +29,6 @@ ProductModel.init({
     primaryKey: true,
   },
   name: DataTypes.STRING,
-  name: DataTypes.STRING,
   price: DataTypes.STRING,
 }, {
   sequelize,

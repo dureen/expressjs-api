@@ -1,5 +1,5 @@
 // Status: not yet!
-const resJson = require('../resources/json');
+const rescJson = require('../resources/json');
 
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
@@ -11,47 +11,41 @@ exports.index = async (req, res) => {
       attributes: ['name']},
     ],
   });
-  res.json(resJson(posts));
+  res.json(rescJson(posts));
 };
 
 exports.store = async (req, res) => {
   res.send('/POST');
-  // const userId = req.body.userId;
-  // const title = req.body.title;
-  // const slug = title;
-  // const content = req.body.content;
-  // const status = req.body.status;
-  // res.json(resJson(posts, 'Created.', 201));
 };
 
 exports.show = async (req, res) => {
   console.log(req.params.postId);
   const post = await PostModel.findByPk(req.params.postId);
   if (!post) {
-    res.json(resJson(null, 'Not found.', 404, 0));
+    res.json(rescJson(null, 'Not found.', 404, 0));
   } else {
-    res.json(resJson(post));
+    res.json(rescJson(post));
   }
 };
 
 exports.update = async (req, res) => {
   const post = await PostModel.findByPk(req.params.postId);
-  res.json(resJson(post));
+  res.json(rescJson(post));
 };
 
 exports.destroy = async (req, res) => {
   const postId = req.params.postId;
   const post = await PostModel.findByPk(postId);
   if (!post) {
-    res.json(resJson(null, 'Not found.', 404, 0));
+    res.json(rescJson(null, 'Not found.', 404, 0));
   } else {
     const x = await post.destroy().catch(console.error);
     if (!x) {
       const msg = 'Unable to delete post #' + postId;
-      res.json(resJson(null, msg, 500, 0));
+      res.json(rescJson(null, msg, 500, 0));
     } else {
       const msg = 'Successfully deleted post #' + postId;
-      res.json(resJson(null, msg));
+      res.json(rescJson(null, msg));
     }
   }
 };
