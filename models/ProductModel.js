@@ -41,7 +41,7 @@ ProductModel.init({
   // underscored: true,
 });
 
-ProductModel.drop();
+// ProductModel.drop();
 ProductModel.sync();
 
 module.exports = ProductModel;

@@ -57,7 +57,9 @@ PostModel.init({
   },
 }, {
   sequelize,
-  timestamps: false,
+  timestamps: true,
+  createdAt: true,
+  updatedAt: true,
   // paranoid: true,
   underscored: true,
   // freezeTableName: true,

@@ -1,3 +1,4 @@
+// Status: ready!
 const resJson = require('../resources/json');
 
 const ProductModel = require('../models/ProductModel');
@@ -9,14 +10,14 @@ exports.index = async (req, res) => {
 
 exports.store = async (req, res) => {
   if (!req.body.name || !req.body.price) {
-    res.json(resJson(null, 'Precondition Failed.', 412, 0));
+    res.json(resJson(null, 'Failed.', 400, 0));
   } else {
     const product = await ProductModel.create({
       name: req.body.name,
       price: req.body.price,
     });
     if (!product) {
-      res.json(resJson(null, 'Precondition Failed.', 412, 0));
+      res.json(resJson(null, 'Failed.', 400, 0));
     } else {
       res.json(resJson(product, 'Created.', 201));
     }
@@ -32,20 +33,23 @@ exports.show = async (req, res) => {
   }
 };
 
-// in-progress, don't expect it will work
 exports.update = async (req, res) => {
   const product = await ProductModel.findByPk(req.params.productId);
-  if (!req.body.name || !req.body.price) {
-    res.json(resJson(null, 'Precondition Failed.', 412, 0));
+  if (!product) {
+    res.json(resJson(null, 'Not found. Cannot update this data.', 404, 0));
+  } else if (!req.body.name || !req.body.price) {
+    res.json(resJson(null, 'Failed.', 400, 0));
   } else {
-    const product = await ProductModel.create({
+    // product.update
+    product.set({
       name: req.body.name,
       price: req.body.price,
     });
-    if (!product) {
-      res.json(resJson(null, 'Precondition Failed.', 412, 0));
+    const updated = await product.save();
+    if (!updated) {
+      res.json(resJson(null, 'Failed.', 400, 0));
     } else {
-      res.json(resJson(product, 'Created.', 201));
+      res.json(resJson(updated, 'Updated.', 200));
     }
   }
 };

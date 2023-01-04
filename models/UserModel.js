@@ -70,7 +70,9 @@ UserModel.init({
 }, {
   sequelize,
   // don't add the timestamp attributes (updatedAt, createdAt)
-  timestamps: false,
+  timestamps: true,
+  createdAt: true,
+  updatedAt: true,
 
   // don't delete database entries but set the newly added attribute deletedAt
   // to the current date (when deletion was done). paranoid will only work if
