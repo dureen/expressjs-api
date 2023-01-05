@@ -10,10 +10,10 @@ Run project:
 $ npm run start
 ```
 
-## Buy Me a Coffee
-Click [here](https://ko-fi.com/sandw)
-
 ## Happy Coding!
 
 ## License
 [MIT](LICENSE)
+
+### Support
+Buy me a coffee [Click here](https://ko-fi.com/sandw)
