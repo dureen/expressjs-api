@@ -3,7 +3,7 @@
 ## Code
 [  ] Create a cookies. Yummy!
 [  ] Create validation.
-[  ] Create html view.
+[ x ] Create html view (ejs).
 
 ## Dependencies
 ### express-session
