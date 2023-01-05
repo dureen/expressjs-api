@@ -9,18 +9,22 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  if (!req.body.name || !req.body.price) {
-    res.json(rescJson(null, 'Failed.', 400, 0));
+  if (!req.body.name) {
+    return res.json(rescJson(null, '`name` field is required', 403, 0));
+  }
+  if (!req.body.price) {
+    return res.json(rescJson(null, '`price` field is required', 403, 0));
+  }
+
+  const book = await BookModel.create({
+    name: req.body.name,
+    price: req.body.price,
+  }).catch(console.error);
+
+  if (!book) {
+    res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
   } else {
-    const book = await BookModel.create({
-      name: req.body.name,
-      price: req.body.price,
-    }).catch(console.error);
-    if (!book) {
-      res.json(rescJson(null, 'Failed.', 400, 0));
-    } else {
-      res.json(rescJson(book, 'Created.', 201));
-    }
+    res.json(rescJson(book, 'Created.', 201));
   }
 };
 
@@ -33,22 +37,18 @@ exports.show = async (req, res) => {
   }
 };
 
-// in-progress, don't expect it will work
 exports.update = async (req, res) => {
   const book = await BookModel.findByPk(req.params.bookId);
   if (!book) {
-    res.json(rescJson(null, 'The book is not found.', 404, 0));
-  } else if (!req.body.name || !req.body.price) {
-    res.json(rescJson(null, 'Failed.', 400, 0));
+    res.json(rescJson(null, 'Not found.', 404, 0));
   } else {
-    // book.update
     book.set({
-      name: req.body.name,
-      price: req.body.price,
+      name: req.body.name || book.name,
+      price: req.body.price || book.price,
     });
     const updated = await book.save().catch(console.error);
     if (!updated) {
-      res.json(rescJson(null, 'Failed.', 400, 0));
+      res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
       res.json(rescJson(updated, 'Updated.', 200));
     }
@@ -63,7 +63,7 @@ exports.destroy = async (req, res) => {
   } else {
     const x = await book.destroy().catch(console.error);
     if (!x) {
-      res.json(rescJson(null, 'Failed.', 500, 0));
+      res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
       res.json(rescJson(null, 'Deleted.'));
     }
