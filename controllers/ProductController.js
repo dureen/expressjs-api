@@ -45,6 +45,7 @@ exports.update = async (req, res) => {
       name: req.body.name || product.name,
       price: req.body.price || product.price,
     });
+
     const updated = await product.save().catch(console.error);
     if (!updated) {
       res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));

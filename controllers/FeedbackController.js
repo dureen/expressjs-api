@@ -29,7 +29,6 @@ exports.store = async (req, res) => {
   };
 
   const feedback = FeedbackModel.create(data).catch(console.error);
-
   if (!feedback) {
     res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
   } else {

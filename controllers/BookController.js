@@ -20,7 +20,6 @@ exports.store = async (req, res) => {
     name: req.body.name,
     price: req.body.price,
   }).catch(console.error);
-
   if (!book) {
     res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
   } else {
