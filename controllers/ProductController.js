@@ -10,10 +10,12 @@ exports.index = async (req, res) => {
 
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return res.json(rescJson(null, '`name` field is required', 403, 0));
+    return res.status(403)
+        .json(rescJson(null, '`name` field is required', 403, 0));
   }
   if (!req.body.price) {
-    return res.json(rescJson(null, '`price` field is required', 403, 0));
+    return res.status(403)
+        .json(rescJson(null, '`price` field is required', 403, 0));
   }
 
   const product = await ProductModel.create({
@@ -21,16 +23,16 @@ exports.store = async (req, res) => {
     price: req.body.price,
   }).catch(console.error);
   if (!product) {
-    res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+    res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
   } else {
-    res.json(rescJson(product, 'Created.', 201));
+    res.status(201).json(rescJson(product, 'Created.', 201));
   }
 };
 
 exports.show = async (req, res) => {
   const product = await ProductModel.findByPk(req.params.productId);
   if (!product) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
   } else {
     res.json(rescJson(product));
   }
@@ -39,7 +41,7 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   const product = await ProductModel.findByPk(req.params.productId);
   if (!product) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
   } else {
     product.set({
       name: req.body.name || product.name,
@@ -48,9 +50,9 @@ exports.update = async (req, res) => {
 
     const updated = await product.save().catch(console.error);
     if (!updated) {
-      res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+      res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
-      res.json(rescJson(updated, 'Updated.', 200));
+      res.json(rescJson(updated, 'Updated.'));
     }
   }
 };
@@ -59,11 +61,11 @@ exports.destroy = async (req, res) => {
   const productId = req.params.productId;
   const product = await ProductModel.findByPk(productId);
   if (!product) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
   } else {
     const x = await product.destroy().catch(console.error);
     if (!x) {
-      res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+      res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
       res.json(rescJson(null, 'Deleted.'));
     }

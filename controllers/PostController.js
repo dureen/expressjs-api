@@ -18,13 +18,16 @@ exports.index = async (req, res) => {
 exports.store = async (req, res) => {
   // res.send('/POST');
   if (!req.body.userId) {
-    return res.json(rescJson(null, '`userId` field is required!', 403, 0));
+    return res.status(403).
+        json(rescJson(null, '`userId` field is required!', 403, 0));
   }
   if (!req.body.title) {
-    return res.json(rescJson(null, '`title` field is required!', 403, 0));
+    return res.status(403).
+        json(rescJson(null, '`title` field is required!', 403, 0));
   }
   if (!req.body.content) {
-    return res.json(rescJson(null, '`content` field is required!', 403, 0));
+    return res.status(403).
+        json(rescJson(null, '`content` field is required!', 403, 0));
   }
 
   const data = {
@@ -37,9 +40,9 @@ exports.store = async (req, res) => {
 
   const post = await PostModel.create(data).catch(console.error);
   if (!post) {
-    res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+    res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
   } else {
-    res.json(rescJson(post, 'Created.', 201));
+    res.status(201).json(rescJson(post, 'Created.', 201));
   }
 };
 
@@ -47,7 +50,7 @@ exports.show = async (req, res) => {
   console.log(req.params.postId);
   const post = await PostModel.findByPk(req.params.postId);
   if (!post) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
   } else {
     res.json(rescJson(post));
   }
@@ -57,7 +60,7 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   const post = await PostModel.findByPk(req.params.postId);
   if (!post) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
   } else {
     post.set({
       userId: req.body.userId || post.userId,
@@ -69,9 +72,9 @@ exports.update = async (req, res) => {
 
     const updated = await post.save().catch(console.error);
     if (!updated) {
-      res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+      res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
-      res.json(rescJson(updated, 'Updated.', 200));
+      res.json(rescJson(updated, 'Updated.'));
     }
   }
 };
@@ -80,11 +83,11 @@ exports.destroy = async (req, res) => {
   const postId = req.params.postId;
   const post = await PostModel.findByPk(postId);
   if (!post) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
   } else {
     const x = await post.destroy().catch(console.error);
     if (!x) {
-      res.json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+      res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
       res.json(rescJson(null, 'Deleted.'));
     }

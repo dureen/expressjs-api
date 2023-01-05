@@ -42,4 +42,7 @@ FeedbackModel.init({
   // underscored: true,
 });
 
+// FeedbackModel.drop();
+FeedbackModel.sync();
+
 module.exports = FeedbackModel;
