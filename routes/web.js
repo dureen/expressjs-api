@@ -2,7 +2,12 @@
 const router = require('express').Router();
 
 router.get('/', (req, res) => {
-  res.send('Hello World!');
+  // res.render('api/index', {
+  //   title: 'Home',
+  // });
+  res.render('index', {
+    title: 'Home',
+  });
 });
 
 module.exports = router;

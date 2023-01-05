@@ -16,20 +16,31 @@ exports.index = async (req, res) => {
   res.json(rescJson(users));
 };
 
-// not tested
 // to-do: validation
 exports.store = async (req, res) => {
-  const name = req.body.name;
-  if (!name) return res.json(rescJson(null, 'Failed.', 400, 0));
-  const email = req.body.email;
-  if (!email) return res.json(rescJson(null, 'Failed.', 400, 0));
-  const password = req.body.password;
-  const cpassword = req.body.confirmPassword;
+  const name = req.body.name || null;
+  if (!name) {
+    return res.json(rescJson(null, 'Name field is required', 403, 0));
+  }
+  const email = req.body.email || null;
+  if (!email) {
+    return res.json(rescJson(null, 'Email field is required', 403, 0));
+  }
+  const password = req.body.password || null;
+  if (!password) {
+    return res.json(rescJson(null, 'Password field is required', 403, 0));
+  }
+  const cpassword = req.body.cpassword || null;
+  if (!cpassword) {
+    return res.json(rescJson(null, 'Confirmation field is required', 403, 0));
+  }
+
   if (password !== cpassword) {
-    return res.json(rescJson(null, 'Failed.', 400, 0));
+    return res.json(rescJson(null, 'Invalid password confirmation!', 403, 0));
   }
 
   const saltRounds = 10;
+  const myPlaintextPassword = password;
   const hashedPassword = await bcrypt.hash(myPlaintextPassword, saltRounds);
 
   const data = {
@@ -38,7 +49,7 @@ exports.store = async (req, res) => {
     password: hashedPassword,
     level: 1,
   };
-  const user = UserModel.create(data);
+  const user = await UserModel.create(data).catch(console.error);
   if (!user) {
     res.json(rescJson(null, 'Failed.', 400, 0));
   } else {
@@ -55,19 +66,18 @@ exports.show = async (req, res) => {
   }
 };
 
-// not tested
 // to-do: validation
 exports.update = async (req, res) => {
   const user = await UserModel.findByPk(req.params.userId);
   if (!user) {
-    return res.json(rescJson(null, 'The user cannot be found.', 404, 0));
+    return res.json(rescJson(null, 'The user is not found.', 404, 0));
   }
   if (req.body.name) user.name = req.body.name;
   if (req.body.email) user.email = req.body.email;
-  // if (req.body.password) user.password = req.body.password;
+  // if (req.body.password) user.password = req.body.password; // ???
   if (req.body.level) user.level = req.body.level;
 
-  const updated = await product.save();
+  const updated = await user.save().catch(console.error);
   if (!updated) {
     res.json(rescJson(null, 'Failed.', 400, 0));
   } else {
@@ -83,11 +93,9 @@ exports.destroy = async (req, res) => {
   } else {
     const x = await user.destroy().catch(console.error);
     if (!x) {
-      const msg = 'Unable to delete user #' + userId;
-      res.json(rescJson(null, msg, 500, 0));
+      res.json(rescJson(null, 'Failed.', 500, 0));
     } else {
-      const msg = 'Successfully deleted user #' + userId;
-      res.json(rescJson(null, msg));
+      res.json(rescJson(null, 'Deleted.'));
     }
   }
 };

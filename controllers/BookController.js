@@ -15,7 +15,7 @@ exports.store = async (req, res) => {
     const book = await BookModel.create({
       name: req.body.name,
       price: req.body.price,
-    });
+    }).catch(console.error);
     if (!book) {
       res.json(rescJson(null, 'Failed.', 400, 0));
     } else {
@@ -37,7 +37,7 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   const book = await BookModel.findByPk(req.params.bookId);
   if (!book) {
-    res.json(rescJson(null, 'Not found. Cannot update this data.', 404, 0));
+    res.json(rescJson(null, 'The book is not found.', 404, 0));
   } else if (!req.body.name || !req.body.price) {
     res.json(rescJson(null, 'Failed.', 400, 0));
   } else {
@@ -46,7 +46,7 @@ exports.update = async (req, res) => {
       name: req.body.name,
       price: req.body.price,
     });
-    const updated = await book.save();
+    const updated = await book.save().catch(console.error);
     if (!updated) {
       res.json(rescJson(null, 'Failed.', 400, 0));
     } else {
@@ -63,11 +63,9 @@ exports.destroy = async (req, res) => {
   } else {
     const x = await book.destroy().catch(console.error);
     if (!x) {
-      const msg = 'Unable to delete book #' + bookId;
-      res.json(rescJson(null, msg, 500, 0));
+      res.json(rescJson(null, 'Failed.', 500, 0));
     } else {
-      const msg = 'Successfully deleted book #' + bookId;
-      res.json(rescJson(null, msg));
+      res.json(rescJson(null, 'Deleted.'));
     }
   }
 };
