@@ -1,0 +1,45 @@
+<nav x-data="{ open: false }" class="material-33">
+    <div class="bg-light container-fluid py-1 px-3 px-md-5 d-block d-md-flex align-items-center">
+        <div class="flex-grow-1 d-flex align-items-center py-2">
+            <div class="me-2">
+                <img src="favicon.ico" alt="icon">
+            </div>
+            <div class="flex-grow-1 px-3">Navbar</div>
+                <div class="d-flex d-md-none">
+                    <button @click="open=!open" class="btn btn-light">Menu</button>
+                </div>
+            </div>
+            <div class="py-2 d-none d-md-block" x-bind:class="{'d-none': !open}">
+                <div class="nav d-grid gap-2 d-md-block">
+                    <a href="/" 
+                        class="btn <%- (title=='Home') ? 'btn-primary' : 'btn-light' %>"
+                        >
+                        Home
+                    </a>
+                    <a href="/api" 
+                        class="btn <%- (title=='API') ? 'btn-primary' : 'btn-light' %>"
+                        >
+                        API
+                    </a>
+                    <!-- <a href="/categories" class="btn btn-light">Categories</a> -->
+                    <a href="/supports" 
+                        class="btn <%- (title=='Supports') ? 'btn-primary' : 'btn-light' %>"
+                        >
+                        Supports
+                    </a>
+                    <a href="/abouts" 
+                        class="btn <%- (title=='Abouts') ? 'btn-primary' : 'btn-light' %>">Abouts</a>  
+                    <a href="https://discord.gg/SEqph7Mytu" target="_blank" target="_blank" 
+                        rel="noopener noreferrer" class="btn btn-warning">
+                        Join Our Discord
+                    </a>
+                    
+                    <!-- <a href="#" class="btn btn-warning">Login</a> -->
+                    
+                    <!-- <a href="#" class="btn btn-warning">Dashboard</a> -->
+                    <!-- <a href="#" class="btn btn-danger">Sign Out</a> -->
+                </div>
+            </div>
+        </div>
+    <div>
+</nav>

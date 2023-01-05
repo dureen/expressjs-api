@@ -1,0 +1,93 @@
+<%- include('../templates/head'); %>
+<%- include('../templates/navigation'); %>
+<div class="flex-grow-1 py-2 bg-secondary bg-opacity-10">
+    <main class="container bg-light material-33 py-2">
+        <div class="">
+            <h3>API Routes</h3>
+            <div>
+                <h5>API Version: 1</h5>
+                <div>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1" disabled>
+                </div>
+            </div>
+            <h3>Categories:</h3>
+            <div>
+                <h5>Book</h5>
+                <div>
+                    <label class="w-25" for="">/GET</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/POST</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/PUT</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books/:id" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/DELETE</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books/:id" disabled>
+                </div>
+            </div>
+            <div>
+                <h5>Product</h5>
+                <div>
+                    <label class="w-25" for="">/GET</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/POST</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/PUT</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product/:id" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/DELETE</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product/:id" disabled>
+                </div>
+            </div>
+            <div>
+                <h5>User</h5>
+                <div>
+                    <label class="w-25" for="">/GET</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/POST</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/PUT</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user/:id" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/DELETE</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user/:id" disabled>
+                </div>
+            </div>
+            <div>
+                <h5>Post</h5>
+                <div>
+                    <label class="w-25" for="">/GET</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/POST</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/PUT</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post/:id" disabled>
+                </div>
+                <div>
+                    <label class="w-25" for="">/DELETE</label>
+                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post/:id" disabled>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<%- include('../templates/footer'); %>

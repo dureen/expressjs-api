@@ -10,6 +10,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "ignorePatterns": ["**/public/vendor/js/*.js"],
     "rules": {
     }
 }
