@@ -2,89 +2,87 @@
 <%- include('../templates/navigation'); %>
 <div class="flex-grow-1 py-2 bg-secondary bg-opacity-10">
     <main class="container bg-light material-33 py-2">
-        <div class="">
+        <div class="a">
             <h3>API Routes</h3>
             <div>
-                <h5>API Version: 1</h5>
-                <div>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1" disabled>
-                </div>
+                <h5 class="bg-dark bg-opacity-10 p-2">API Version: 1</h5>
+                <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1</code></pre>
             </div>
             <h3>Categories:</h3>
             <div>
-                <h5>Book</h5>
+                <h5 class="bg-dark bg-opacity-10 p-2">Book</h5>
                 <div>
-                    <label class="w-25" for="">/GET</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books" disabled>
+                    <div class=""><code>/GET</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/books</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/POST</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books" disabled>
+                    <div class=""><code>/POST</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/books</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/PUT</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books/:id" disabled>
+                    <div class=""><code>/PUT</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/books/:id</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/DELETE</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/books/:id" disabled>
-                </div>
-            </div>
-            <div>
-                <h5>Product</h5>
-                <div>
-                    <label class="w-25" for="">/GET</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product" disabled>
-                </div>
-                <div>
-                    <label class="w-25" for="">/POST</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product" disabled>
-                </div>
-                <div>
-                    <label class="w-25" for="">/PUT</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product/:id" disabled>
-                </div>
-                <div>
-                    <label class="w-25" for="">/DELETE</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/product/:id" disabled>
+                    <div class=""><code>/DELETE</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/books/:id</code></pre>
                 </div>
             </div>
             <div>
-                <h5>User</h5>
+                <h5 class="bg-dark bg-opacity-10 p-2">Product</h5>
                 <div>
-                    <label class="w-25" for="">/GET</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user" disabled>
+                    <div class=""><code>/GET</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/product</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/POST</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user" disabled>
+                    <div class=""><code>/POST</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/product</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/PUT</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user/:id" disabled>
+                    <div class=""><code>/PUT</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/product/:id</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/DELETE</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/user/:id" disabled>
+                    <div class=""><code>/DELETE</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/product/:id</code></pre>
                 </div>
             </div>
             <div>
-                <h5>Post</h5>
+                <h5 class="bg-dark bg-opacity-10 p-2">User</h5>
                 <div>
-                    <label class="w-25" for="">/GET</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post" disabled>
+                    <div class=""><code>/GET</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/user</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/POST</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post" disabled>
+                    <div class=""><code>/POST</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/user</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/PUT</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post/:id" disabled>
+                    <div class=""><code>/PUT</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/user/:id</code></pre>
                 </div>
                 <div>
-                    <label class="w-25" for="">/DELETE</label>
-                    <input class="w-75" type="text" value="<%= baseUrl %>/api/v1/post/:id" disabled>
+                    <div class=""><code>/DELETE</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/user/:id</code></pre>
+                </div>
+            </div>
+            <div>
+                <h5 class="bg-dark bg-opacity-10 p-2">Post</h5>
+                <div>
+                    <div class=""><code>/GET</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/post</code></pre>
+                </div>
+                <div>
+                    <div class=""><code>/POST</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/post</code></pre>
+                </div>
+                <div>
+                    <div class=""><code>/PUT</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/post/:id</code></pre>
+                </div>
+                <div>
+                    <div class=""><code>/DELETE</code></div>
+                    <pre class="bg-secondary text-light p-2 rounded-md"><code><%= baseUrl %>/api/v1/post/:id</code></pre>
                 </div>
             </div>
         </div>
