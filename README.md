@@ -16,4 +16,5 @@ $ npm run start
 [MIT](LICENSE)
 
 ### Support
+Hi, there! Do you think this repository worthy? If so then...
 Buy me a coffee [Click here](https://ko-fi.com/sandw)

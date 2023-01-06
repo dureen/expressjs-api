@@ -11,7 +11,7 @@ exports.appName = process.env.AppName || 'ExpressJs API';
 exports.appEnv = process.env.AppEnv || 'local';
 exports.appDebug = process.env.AppDebug==='true' ? true : false;
 exports.appURL = process.env.AppURL || 'http://localhost';
-exports.appPort = process.env.AppPort || 8080;
+exports.appPort = process.env.AppPort || 3030;
 
 // Default Databases
 exports.dbConnection = process.env.DBConnection || 'mysql';
