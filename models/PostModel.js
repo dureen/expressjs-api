@@ -75,4 +75,6 @@ PostModel.belongsTo(UserModel, {
   onUpdate: 'CASCADE',
 });
 
+// PostModel.sync();
+
 module.exports = PostModel;

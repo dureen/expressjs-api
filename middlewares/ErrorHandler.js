@@ -1,4 +1,4 @@
-const env = require('../config/env');
+const base = require('../config/base');
 
 const ErrorHandler = (err, req, res, next) => {
   console.log('Middleware Error Hadnling');
@@ -8,7 +8,7 @@ const ErrorHandler = (err, req, res, next) => {
     success: false,
     status: statusCode,
     message: errMessage,
-    stack: env.appEnv === 'development' ? err.stack : {},
+    stack: base.nodeEnv === 'development' ? err.stack : {},
   });
 };
 

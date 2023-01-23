@@ -5,7 +5,7 @@
  */
 
 const {Sequelize} = require('sequelize');
-const env = require('./env');
+const base = require('./base');
 
 /**
  * -----------------------------------------------------------------------------
@@ -20,12 +20,13 @@ const env = require('./env');
  * Option 2: Passing parameters separately (sqlite)
  * -----------------------------------------------------------------------------
  */
-
-exports.getSqlite = new Sequelize({
+const option2 = {
   dialect: 'sqlite',
-  storage: `${env.sqlitePath}${env.sqliteDatabase}`,
-  logging: env.dbLogging,
-});
+  storage: base.sqlitePath + base.sqliteDatabase,
+};
+if (base.sqliteLogging === 'false') option2['logging']= false;
+
+exports.getSqlite = new Sequelize(option2);
 
 /**
  * -----------------------------------------------------------------------------
@@ -36,13 +37,15 @@ exports.getSqlite = new Sequelize({
  * -----------------------------------------------------------------------------
  */
 
+const option3 = {
+  host: base.dbHostname,
+  dialect: base.dbConnection,
+};
+if (base.dbLogging === 'false') option3['logging']= false;
+
 exports.getDialect = new Sequelize(
-    env.dbDatabase,
-    env.dbUsername,
-    env.dbPassword,
-    {
-      host: env.dbHostname,
-      dialect: env.dbConnection,
-      logging: env.sqliteLogging,
-    },
+    base.dbDatabase,
+    base.dbUsername,
+    base.dbPassword,
+    option3,
 );

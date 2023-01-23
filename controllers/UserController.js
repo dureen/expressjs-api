@@ -1,5 +1,5 @@
 // Status: not yet!
-const rescJson = require('../resources/json');
+const rJson = require('../resources/json');
 
 const UserModel = require('../models/UserModel');
 
@@ -13,30 +13,30 @@ exports.index = async (req, res) => {
    * ---------------------------------------------------------------------------
    */
   const users = await UserModel.findAll();
-  res.json(rescJson(users));
+  res.json(rJson(users, 'OK'));
 };
 
 // to-do: validation
 exports.store = async (req, res) => {
   if (!req.body.name) {
     return res.status(403).
-        json(rescJson(null, '`name field is required', 403, 0));
+        json(rJson(null, '`name field is required', 403, 0));
   }
   if (!req.body.email) {
     return res.status(403).
-        json(rescJson(null, '`email field is required', 403, 0));
+        json(rJson(null, '`email field is required', 403, 0));
   }
   if (!req.body.password) {
     return res.status(403).
-        json(rescJson(null, '`password` field is required', 403, 0));
+        json(rJson(null, '`password` field is required', 403, 0));
   }
   if (!req.body.cpassword) {
     return res.status(403).
-        json(rescJson(null, '`cpassword field is required', 403, 0));
+        json(rJson(null, '`cpassword field is required', 403, 0));
   }
   if (req.body.password !== req.body.cpassword) {
     return res.status(403).
-        json(rescJson(null, 'the password doen\'t match', 403, 0));
+        json(rJson(null, 'the password doen\'t match', 403, 0));
   }
 
   const saltRounds = 10;
@@ -52,18 +52,18 @@ exports.store = async (req, res) => {
 
   const user = await UserModel.create(data).catch(console.error);
   if (!user) {
-    res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+    res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
   } else {
-    res.status(201).json(rescJson(user, 'Created.', 201));
+    res.status(201).json(rJson(user, 'Created.', 201));
   }
 };
 
 exports.show = async (req, res) => {
   const user = await UserModel.findByPk(req.params.userId);
   if (!user) {
-    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rJson(null, 'Not found.', 404, 0));
   } else {
-    res.json(rescJson(user));
+    res.json(rJson(user, 'OK'));
   }
 };
 
@@ -71,7 +71,7 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   const user = await UserModel.findByPk(req.params.userId);
   if (!user) {
-    res.status(404).json(rescJson(null, 'Not found.', 404, 0));
+    res.status(404).json(rJson(null, 'Not found.', 404, 0));
   } else {
     user.set({
       name: req.body.name || user.name,
@@ -81,9 +81,9 @@ exports.update = async (req, res) => {
     });
     const updated = await user.save().catch(console.error);
     if (!updated) {
-      res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
-      res.json(rescJson(updated, 'Updated.'));
+      res.json(rJson(updated, 'Updated.'));
     }
   }
 };
@@ -92,13 +92,13 @@ exports.destroy = async (req, res) => {
   const userId = req.params.userId;
   const user = await UserModel.findByPk(userId);
   if (!user) {
-    res.json(rescJson(null, 'Not found.', 404, 0));
+    res.json(rJson(null, 'Not found.', 404, 0));
   } else {
     const x = await user.destroy().catch(console.error);
     if (!x) {
-      res.status(422).json(rescJson(null, 'Unprocessable Entity.', 422, 0));
+      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
     } else {
-      res.json(rescJson(null, 'Deleted.'));
+      res.json(rJson(null, 'Deleted.'));
     }
   }
 };

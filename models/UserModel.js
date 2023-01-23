@@ -92,4 +92,6 @@ UserModel.init({
   tableName: 'users',
 });
 
+UserModel.sync();
+
 module.exports = UserModel;

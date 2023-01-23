@@ -1,7 +1,7 @@
-const base = require('../helpers/base');
-const baseUrl = (base.environment==='development') ?
-    base.url + ':' + base.port :
-    base.url;
+const base = require('../config/base');
+
+// const baseName = base.appName;
+const baseUrl = base.appURL;
 
 exports.index = (req, res) => {
   res.render('index', {
