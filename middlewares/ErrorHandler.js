@@ -8,7 +8,7 @@ const ErrorHandler = (err, req, res, next) => {
     success: false,
     status: statusCode,
     message: errMessage,
-    stack: base.nodeEnv === 'development' ? err.stack : {},
+    stack: base.env === 'development' ? err.stack : {},
   });
 };
 

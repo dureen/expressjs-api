@@ -1,20 +1,18 @@
-const env = require('dotenv').config({debug: process.env.NODE_DEBUG});
+const env = require('dotenv')
+    .config({
+      debug: (process.env.BASE_DEBUG == 'true') ? true : false,
+    });
 
 const data = env.parsed;
 
-exports.node = Object.fromEntries(
+exports.base = Object.fromEntries(
     Object.entries(data)
-        .filter(([key, value])=>key.startsWith('NODE_')),
+        .filter(([key, value])=>key.startsWith('BASE_')),
 );
 
 exports.app = Object.fromEntries(
     Object.entries(data)
         .filter(([key, value])=>key.startsWith('APP_')),
-);
-
-exports.bot = Object.fromEntries(
-    Object.entries(data)
-        .filter(([key, value])=>key.startsWith('BOT_')),
 );
 
 exports.db = Object.fromEntries(
@@ -32,4 +30,8 @@ exports.mongo = Object.fromEntries(
         .filter(([key, value])=>key.startsWith('MONGODB_')),
 );
 
+exports.blogger = Object.fromEntries(
+    Object.entries(data)
+        .filter(([key, value])=>key.startsWith('BLOGGER_')),
+);
 

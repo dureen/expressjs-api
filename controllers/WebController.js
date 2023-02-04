@@ -1,7 +1,7 @@
 const base = require('../config/base');
 
-// const baseName = base.appName;
-const baseUrl = base.appURL;
+// const baseName = base.name;
+const baseUrl = base.url;
 
 exports.index = (req, res) => {
   res.render('index', {

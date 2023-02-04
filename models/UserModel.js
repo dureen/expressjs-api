@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const {Sequelize, DataTypes, Model} = require('sequelize');
 // import connection
-const sequelize = require('../config/sequelize').getDialect;
+const sequelize = require('../config/sequelize/sql').db;
 
 /**
  * User Model Class

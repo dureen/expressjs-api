@@ -1,6 +1,6 @@
 const {Sequelize, DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').getDialect;
+const sequelize = require('../config/sequelize/sql').db;
 const UserModel = require('./UserModel');
 /**
  * Post Model

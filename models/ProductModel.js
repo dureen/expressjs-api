@@ -1,6 +1,6 @@
 const {DataTypes, Model} = require('sequelize');
 
-const sequelize = require('../config/sequelize').getSqlite;
+const sequelize = require('../config/sequelize/sqlite').db;
 
 /**
  * Product Model

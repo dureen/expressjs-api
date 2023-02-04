@@ -4,8 +4,8 @@ const path = require('path');
 
 const logger = require('morgan');
 
-const env = require('./config/base');
-const routes = require('./routes/base');
+const base = require('./config/base');
+const routes = require('./routes/core');
 
 const app = express();
 
@@ -33,7 +33,8 @@ routes(app);
 const ErrorHandler = require('./middlewares/ErrorHandler');
 app.use(ErrorHandler);
 
-module.exports = app;
-app.listen(env.appPort, () => {
-  console.log(`Server running at [${env.appURL}]`);
+// exports.serve = () => {
+app.listen(base.port, () => {
+  console.log(`Server running at [${base.url}]`);
 }).on('error', console.error);
+// };
