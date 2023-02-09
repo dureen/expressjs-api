@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const {Sequelize, DataTypes, Model} = require('sequelize');
+const {DataTypes, Model} = require('sequelize');
 // import connection
 const sequelize = require('../config/sequelize/sql').db;
 
@@ -9,7 +9,8 @@ const sequelize = require('../config/sequelize/sql').db;
 class UserModel extends Model {
   protectedAttributes = [
     'password',
-    'remember_token',
+    'rememberToken',
+    // 'remember_token',
   ];
 
   /**
@@ -50,29 +51,27 @@ UserModel.init({
     primaryKey: true,
   },
   name: DataTypes.STRING,
-  email_verified_at: DataTypes.DATE,
-  email: {
-    type: DataTypes.STRING,
-  },
-  password: {
-    type: DataTypes.STRING,
-  },
+  emailVerifiedAt: DataTypes.DATE,
+  // email_verified_at: DataTypes.DATE,
+  email: DataTypes.STRING,
+  password: DataTypes.STRING,
   level: DataTypes.SMALLINT,
-  remember_token: DataTypes.STRING,
-  createdAt: {
-    field: 'created_at',
-    type: Sequelize.DATE,
-  },
-  updatedAt: {
-    field: 'updated_at',
-    type: Sequelize.DATE,
-  },
+  rememberToken: DataTypes.STRING,
+  // remember_token: DataTypes.STRING,
+  // createdAt: {
+  //   field: 'created_at',
+  //   type: Sequelize.DATE,
+  // },
+  // updatedAt: {
+  //   field: 'updated_at',
+  //   type: Sequelize.DATE,
+  // },
 }, {
   sequelize,
   // don't add the timestamp attributes (updatedAt, createdAt)
   timestamps: true,
-  createdAt: true,
-  updatedAt: true,
+  // createdAt: true,
+  // updatedAt: true,
 
   // don't delete database entries but set the newly added attribute deletedAt
   // to the current date (when deletion was done). paranoid will only work if

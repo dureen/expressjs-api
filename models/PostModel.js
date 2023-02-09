@@ -29,8 +29,8 @@ PostModel.init({
   },
   userId: {
     type: Sequelize.INTEGER,
-    name: 'userId',
-    field: 'user_id',
+    // name: 'userId',
+    // field: 'user_id',
     references: 'users',
     referencesKey: 'id',
   },
@@ -47,21 +47,21 @@ PostModel.init({
   status: {
     type: DataTypes.TINYINT,
   },
-  createdAt: {
-    field: 'created_at',
-    type: Sequelize.DATE,
-  },
-  updatedAt: {
-    field: 'updated_at',
-    type: Sequelize.DATE,
-  },
+  // createdAt: {
+  //   field: 'created_at',
+  //   type: Sequelize.DATE,
+  // },
+  // updatedAt: {
+  //   field: 'updated_at',
+  //   type: Sequelize.DATE,
+  // },
 }, {
   sequelize,
-  timestamps: true,
-  createdAt: true,
-  updatedAt: true,
-  // paranoid: true,
   underscored: true,
+  timestamps: true,
+  // createdAt: true,
+  // updatedAt: true,
+  // paranoid: true,
   // freezeTableName: true,
   tableName: 'posts',
 });
@@ -69,7 +69,7 @@ PostModel.init({
 PostModel.belongsTo(UserModel, {
   foreignKey: {
     name: 'userId',
-    field: 'user_id',
+    // field: 'user_id',
   },
   onDelete: 'NO ACTION',
   onUpdate: 'CASCADE',

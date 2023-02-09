@@ -29,7 +29,7 @@ exports.dbLog = (dotEnv.db.DB_LOG == 'true') ? true : false;
 
 // SQLite
 exports.sqliteFile = dotEnv.sqlite.SQLITE_FILE || 'local.sqlite';
-exports.sqlitePath = dotEnv.sqlite.SQLITE_PATH || 'database/';
+exports.sqlitePath = dotEnv.sqlite.SQLITE_PATH || 'data/';
 exports.sqliteLog = (dotEnv.sqlite.SQLITE_LOG == 'true') ? true : false;
 
 // MOngoDB

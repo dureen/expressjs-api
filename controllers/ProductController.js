@@ -1,73 +1,130 @@
-// Status: ready!
-const rJson = require('../resources/json');
-
 const ProductModel = require('../models/ProductModel');
 
 exports.index = async (req, res) => {
-  const products = await ProductModel.findAll();
-  res.json(rJson(products, 'OK'));
+  const data = await ProductModel.findAll()
+      .catch(console.error);
+  res.json({
+    status: 1,
+    code: 200,
+    message: 'OK.',
+    data: data,
+  });
 };
 
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return res.status(403)
-        .json(rJson(null, '`name` field is required', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'name field is required.',
+    });
   }
   if (!req.body.price) {
-    return res.status(403)
-        .json(rJson(null, '`price` field is required', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'price field is required.',
+    });
   }
 
-  const product = await ProductModel.create({
+  const result = await ProductModel.create({
     name: req.body.name,
     price: req.body.price,
   }).catch(console.error);
-  if (!product) {
-    res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+  if (!result) {
+    res.status(422).json({
+      status: 0,
+      code: 422,
+      message: 'Unprocessable Entity.',
+    });
   } else {
-    res.status(201).json(rJson(product, 'Created.', 201));
+    res.status(201).json({
+      status: 1,
+      code: 201,
+      message: 'Created a new data.',
+      data: result,
+    });
   }
 };
 
 exports.show = async (req, res) => {
-  const product = await ProductModel.findByPk(req.params.productId);
-  if (!product) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const productId = req.params.productId;
+  const data = await ProductModel.findByPk(productId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    res.json(rJson(product, 'OK'));
+    res.json({
+      status: 1,
+      code: 200,
+      message: 'OK.',
+      data: data,
+    });
   }
 };
 
 exports.update = async (req, res) => {
-  const product = await ProductModel.findByPk(req.params.productId);
-  if (!product) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const productId = req.params.productId;
+  const data = await ProductModel.findByPk(productId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    product.set({
-      name: req.body.name || product.name,
-      price: req.body.price || product.price,
+    data.set({
+      name: req.body.name || data.name,
+      price: req.body.price || data.price,
     });
 
-    const updated = await product.save().catch(console.error);
-    if (!updated) {
-      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+    const result = await data.save();
+    if (!result) {
+      res.status(422).json({
+        status: 0,
+        code: 422,
+        message: 'Unprocessable Entity.',
+      });
     } else {
-      res.json(rJson(updated, 'Updated.'));
+      res.json({
+        status: 1,
+        code: 200,
+        message: `Updated. ID: ${productId}`,
+        data: result,
+      });
     }
   }
 };
 
 exports.destroy = async (req, res) => {
   const productId = req.params.productId;
-  const product = await ProductModel.findByPk(productId);
-  if (!product) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const data = await ProductModel.findByPk(productId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    const x = await product.destroy().catch(console.error);
-    if (!x) {
-      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+    const result = await data.destroy();
+    if (!result) {
+      res.status(422).json({
+        status: 0,
+        code: 422,
+        message: 'Unprocessable Entity.',
+      });
     } else {
-      res.json(rJson(null, 'Deleted.'));
+      res.json({
+        status: 1,
+        code: 200,
+        message: `Deleted. ID: ${productId}`,
+      });
     }
   }
 };

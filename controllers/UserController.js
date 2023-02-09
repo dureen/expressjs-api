@@ -1,6 +1,3 @@
-// Status: not yet!
-const rJson = require('../resources/json');
-
 const UserModel = require('../models/UserModel');
 
 const bcrypt = require('bcrypt');
@@ -8,35 +5,63 @@ const bcrypt = require('bcrypt');
 exports.index = async (req, res) => {
   /**
    * ---------------------------------------------------------------------------
-   * PLEASE AVOID USING model ({ raw: true })
-   * Reason : can make hidden attribute to appear
+   * Plase add {attributes} option if you are using { raw: true }) option.
+   * Reason : all default attributes are visible when using raw option
    * ---------------------------------------------------------------------------
    */
-  const users = await UserModel.findAll();
-  res.json(rJson(users, 'OK'));
+  const data = await UserModel.findAll({
+    attributes: [
+      'id',
+      'name',
+      'email',
+      'email_verified_at',
+      'level',
+    ],
+  }).catch(console.error);
+  res.json({
+    status: 1,
+    code: 200,
+    message: 'OK.',
+    data: data,
+  });
 };
 
 // to-do: validation
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return res.status(403).
-        json(rJson(null, '`name field is required', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'name field is required.',
+    });
   }
   if (!req.body.email) {
-    return res.status(403).
-        json(rJson(null, '`email field is required', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'email field is required.',
+    });
   }
   if (!req.body.password) {
-    return res.status(403).
-        json(rJson(null, '`password` field is required', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'password field is required.',
+    });
   }
   if (!req.body.cpassword) {
-    return res.status(403).
-        json(rJson(null, '`cpassword field is required', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'cpassword field is required.',
+    });
   }
   if (req.body.password !== req.body.cpassword) {
-    return res.status(403).
-        json(rJson(null, 'the password doen\'t match', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'The password confirm doesn\'t match.',
+    });
   }
 
   const saltRounds = 10;
@@ -50,55 +75,104 @@ exports.store = async (req, res) => {
     level: 1,
   };
 
-  const user = await UserModel.create(data).catch(console.error);
-  if (!user) {
-    res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+  const result = await UserModel.create(data);
+  if (!result) {
+    res.status(422).json({
+      status: 0,
+      code: 422,
+      message: 'Unprocessable Entity.',
+    });
   } else {
-    res.status(201).json(rJson(user, 'Created.', 201));
+    res.status(201).json({
+      status: 1,
+      code: 201,
+      message: 'Created a new user.',
+      data: result,
+    });
   }
 };
 
 exports.show = async (req, res) => {
-  const user = await UserModel.findByPk(req.params.userId);
-  if (!user) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const userId = req.params.userId;
+  const data = await UserModel.findByPk(userId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    res.json(rJson(user, 'OK'));
+    res.json({
+      status: 1,
+      code: 200,
+      message: 'OK.',
+      data: data,
+    });
   }
 };
 
 // to-do: validation
 exports.update = async (req, res) => {
-  const user = await UserModel.findByPk(req.params.userId);
-  if (!user) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
-  } else {
-    user.set({
-      name: req.body.name || user.name,
-      email: req.body.email || user.email,
-      password: req.body.password || user.password, // to-do: bycript
-      level: req.body.level || user.level,
+  const userId = req.params.userId;
+  const data = await UserModel.findByPk(userId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
     });
-    const updated = await user.save().catch(console.error);
-    if (!updated) {
-      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+  } else {
+    data.set({
+      name: req.body.name || data.name,
+      email: req.body.email || data.email,
+      password: req.body.password || data.password, // to-do: bycript
+      level: req.body.level || data.level,
+    });
+
+    const result = await data.save();
+    if (!result) {
+      res.status(422).json({
+        status: 0,
+        code: 422,
+        message: 'Unprocessable Entity.',
+      });
     } else {
-      res.json(rJson(updated, 'Updated.'));
+      res.json({
+        status: 1,
+        code: 200,
+        message: `Updated. ID: ${userId}`,
+        data: result,
+      });
     }
   }
 };
 
 exports.destroy = async (req, res) => {
   const userId = req.params.userId;
-  const user = await UserModel.findByPk(userId);
-  if (!user) {
-    res.json(rJson(null, 'Not found.', 404, 0));
+  const data = await UserModel.findByPk(userId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    const x = await user.destroy().catch(console.error);
-    if (!x) {
-      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+    const result = await data.destroy();
+    if (!result) {
+      res.status(422).json({
+        status: 0,
+        code: 422,
+        message: 'Unprocessable Entity.',
+      });
     } else {
-      res.json(rJson(null, 'Deleted.'));
+      res.json({
+        status: 1,
+        code: 200,
+        message: `Deleted. ID: ${userId}`,
+      });
     }
   }
 };

@@ -1,33 +1,44 @@
-// Status: not yet!
-const rJson = require('../resources/json');
-
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
 
 exports.index = async (req, res) => {
-  const posts = await PostModel.findAll({
+  const data = await PostModel.findAll({
     include: [{
       model: UserModel,
       attributes: ['name']},
     ],
+  }).catch(console.error);
+  res.json({
+    status: 1,
+    code: 200,
+    message: 'OK.',
+    data: data,
   });
-  res.json(rJson(posts, 'OK'));
 };
 
-//  to-do: validation and slug string
+//  to-do: form validation + slug string
 exports.store = async (req, res) => {
   // res.send('/POST');
   if (!req.body.userId) {
-    return res.status(403).
-        json(rJson(null, '`userId` field is required!', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'userId field is required.',
+    });
   }
   if (!req.body.title) {
-    return res.status(403).
-        json(rJson(null, '`title` field is required!', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'title field is required.',
+    });
   }
   if (!req.body.content) {
-    return res.status(403).
-        json(rJson(null, '`content` field is required!', 403, 0));
+    return res.status(403).json({
+      status: 0,
+      code: 403,
+      message: 'content field is required.',
+    });
   }
 
   const data = {
@@ -38,58 +49,105 @@ exports.store = async (req, res) => {
     status: req.body.status || 0,
   };
 
-  const post = await PostModel.create(data).catch(console.error);
-  if (!post) {
-    res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+  const result = await PostModel.create(data);
+  if (!result) {
+    res.status(422).json({
+      status: 0,
+      code: 422,
+      message: 'Unprocessable Entity.',
+    });
   } else {
-    res.status(201).json(rJson(post, 'Created.', 201));
+    res.status(201).json({
+      status: 1,
+      code: 201,
+      message: 'Created a new data.',
+      data: result,
+    });
   }
 };
 
 exports.show = async (req, res) => {
-  console.log(req.params.postId);
-  const post = await PostModel.findByPk(req.params.postId);
-  if (!post) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const postId = req.params.postId;
+  const data = await PostModel.findByPk(postId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    res.json(rJson(post, 'OK'));
+    res.json({
+      status: 1,
+      code: 200,
+      message: 'OK.',
+      data: data,
+    });
   }
 };
 
-// Next to-do: validation
+// to-do: form validation
 exports.update = async (req, res) => {
-  const post = await PostModel.findByPk(req.params.postId);
-  if (!post) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const postId = req.params.postId;
+  const data = await PostModel.findByPk(postId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    post.set({
-      userId: req.body.userId || post.userId,
-      title: req.body.title || post.title,
+    data.set({
+      userId: req.body.userId || data.userId,
+      title: req.body.title || data.title,
       // slug: req.body.title || post.slug, // should unique
-      content: req.body.content || post.content,
-      status: req.body.status || post.status,
+      content: req.body.content || data.content,
+      status: req.body.status || data.status,
     });
 
-    const updated = await post.save().catch(console.error);
-    if (!updated) {
-      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+    const result = await data.save();
+    if (!result) {
+      res.status(422).json({
+        status: 0,
+        code: 422,
+        message: 'Unprocessable Entity.',
+      });
     } else {
-      res.json(rJson(updated, 'Updated.'));
+      res.json({
+        status: 1,
+        code: 200,
+        message: `Updated. ID: ${postId}`,
+        data: result,
+      });
     }
   }
 };
 
 exports.destroy = async (req, res) => {
   const postId = req.params.postId;
-  const post = await PostModel.findByPk(postId);
-  if (!post) {
-    res.status(404).json(rJson(null, 'Not found.', 404, 0));
+  const data = await PostModel.findByPk(postId)
+      .catch(console.error);
+  if (!data) {
+    res.status(404).json({
+      status: 0,
+      code: 404,
+      message: 'Data not found.',
+    });
   } else {
-    const x = await post.destroy().catch(console.error);
-    if (!x) {
-      res.status(422).json(rJson(null, 'Unprocessable Entity.', 422, 0));
+    const result = await data.destroy();
+    if (!result) {
+      res.status(422).json({
+        status: 0,
+        code: 422,
+        message: 'Unprocessable Entity.',
+      });
     } else {
-      res.json(rJson(null, 'Deleted.'));
+      res.json({
+        status: 1,
+        code: 200,
+        message: `Deleted. ID: ${postId}`,
+      });
     }
   }
 };
