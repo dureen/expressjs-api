@@ -1,39 +1,23 @@
 // to-do: form validation
 
 const FeedbackModel = require('../models/FeedbackModel');
+const resCode = require('../data/resources/resCode');
 
 exports.index = async (req, res) => {
-  const data = await FeedbackModel.findAll()
+  const result = await FeedbackModel.findAll()
       .catch(console.error);
-  res.json({
-    status: 1,
-    code: 200,
-    message: 'OK.',
-    data: data,
-  });
+  resCode.set200(res, result);
 };
 
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'name field is required.',
-    });
+    return resCode.set403(res, 'name field is required.');
   }
   if (!req.body.email) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'email field is required.',
-    });
+    return resCode.set403(res, 'email field is required.');
   }
   if (!req.body.content) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'content field is required.',
-    });
+    return resCode.set403(res, 'content field is required.');
   }
 
   const data = {
@@ -45,38 +29,20 @@ exports.store = async (req, res) => {
   const result = await FeedbackModel.create(data)
       .catch(console.error);
   if (!result) {
-    res.status(422).json({
-      status: 0,
-      code: 422,
-      message: 'Unprocessable Entity.',
-    });
+    resCode.set422(res);
   } else {
-    res.status(201).json({
-      status: 1,
-      code: 201,
-      message: 'Created a new data.',
-      data: result,
-    });
+    resCode.set201(res, result);
   }
 };
 
 exports.show = async (req, res) => {
   const fbId = req.params.feedbackId;
-  const data = await FeedbackModel.findByPk(fbId)
+  const result = await FeedbackModel.findByPk(fbId)
       .catch(console.error);
-  if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+  if (!result) {
+    resCode.set404(res);
   } else {
-    res.json({
-      status: 1,
-      code: 200,
-      message: 'OK.',
-      data: data,
-    });
+    resCode.set200(res, result);
   }
 };
 
@@ -86,25 +52,13 @@ exports.destroy = async (req, res) => {
   const data = await FeedbackModel.findByPk(fbId)
       .catch(console.error);
   if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+    resCode.set404(res);
   } else {
     const result = await data.destroy();
     if (!result) {
-      res.status(422).json({
-        status: 0,
-        code: 422,
-        message: 'Unprocessable Entity.',
-      });
+      resCode.set422(res);
     } else {
-      res.json({
-        status: 1,
-        code: 200,
-        message: `Deleted. ID: ${fbId}`,
-      });
+      resCode.set200(res, result, `Deleted. ID: ${fbId}`);
     }
   }
 };

@@ -1,32 +1,19 @@
 // to-do: form validation
-
 const BookModel = require('../models/BookModel');
+const resCode = require('../data/resources/resCode');
 
 exports.index = async (req, res) => {
-  const data = await BookModel.findAll()
+  const result = await BookModel.findAll()
       .catch(console.error);
-  res.json({
-    status: 1,
-    code: 200,
-    message: 'OK.',
-    data: data,
-  });
+  resCode.set200(res, result);
 };
 
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'name field is required.',
-    });
+    return resCode.set403(res, 'name field is required.');
   }
   if (!req.body.price) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'price field is required.',
-    });
+    return resCode.set403(res, 'price field is required.');
   }
 
   const result = await BookModel.create({
@@ -34,38 +21,20 @@ exports.store = async (req, res) => {
     price: req.body.price,
   }).catch(console.error);
   if (!result) {
-    res.status(422).json({
-      status: 0,
-      code: 422,
-      message: 'Unprocessable Entity.',
-    });
+    resCode.set422(res);
   } else {
-    res.status(201).json({
-      status: 1,
-      code: 201,
-      message: 'Created a new data.',
-      data: result,
-    });
+    resCode.set201(res, result);
   }
 };
 
 exports.show = async (req, res) => {
   const bookId = req.params.bookId;
-  const data = await BookModel.findByPk(bookId)
+  const result = await BookModel.findByPk(bookId)
       .catch(console.error);
-  if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+  if (!result) {
+    resCode.set404(res);
   } else {
-    res.json({
-      status: 1,
-      code: 200,
-      message: 'OK.',
-      data: data,
-    });
+    resCode.set200(res, result);
   }
 };
 
@@ -74,11 +43,7 @@ exports.update = async (req, res) => {
   const data = await BookModel.findByPk(bookId)
       .catch(console.error);
   if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+    resCode.set404(res);
   } else {
     data.set({
       name: req.body.name || data.name,
@@ -87,18 +52,9 @@ exports.update = async (req, res) => {
 
     const result = await data.save();
     if (!result) {
-      res.status(422).json({
-        status: 0,
-        code: 422,
-        message: 'Unprocessable Entity.',
-      });
+      resCode.set422(res);
     } else {
-      res.json({
-        status: 1,
-        code: 200,
-        message: `Updated. ID: ${bookId}`,
-        data: result,
-      });
+      resCode.set200(res, result, `Updated. ID: ${bookId}`);
     }
   }
 };
@@ -108,25 +64,13 @@ exports.destroy = async (req, res) => {
   const data = await BookModel.findByPk(bookId)
       .catch(console.error);
   if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+    resCode.set404(res);
   } else {
     const result = await data.destroy();
     if (!result) {
-      res.status(422).json({
-        status: 0,
-        code: 422,
-        message: 'Unprocessable Entity.',
-      });
+      resCode.set422(res);
     } else {
-      res.json({
-        status: 1,
-        code: 200,
-        message: `Deleted. ID: ${bookId}`,
-      });
+      resCode.set200(res, result, `Deleted. ID: ${bookId}`);
     }
   }
 };

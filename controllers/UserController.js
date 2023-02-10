@@ -1,4 +1,5 @@
 const UserModel = require('../models/UserModel');
+const resCode = require('../data/resources/resCode');
 
 const bcrypt = require('bcrypt');
 
@@ -9,7 +10,7 @@ exports.index = async (req, res) => {
    * Reason : all default attributes are visible when using raw option
    * ---------------------------------------------------------------------------
    */
-  const data = await UserModel.findAll({
+  const result = await UserModel.findAll({
     attributes: [
       'id',
       'name',
@@ -18,50 +19,25 @@ exports.index = async (req, res) => {
       'level',
     ],
   }).catch(console.error);
-  res.json({
-    status: 1,
-    code: 200,
-    message: 'OK.',
-    data: data,
-  });
+  resCode.set200(res, result);
 };
 
 // to-do: validation
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'name field is required.',
-    });
+    return resCode.set403(res, 'name field is required.');
   }
   if (!req.body.email) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'email field is required.',
-    });
+    return resCode.set403(res, 'email field is required.');
   }
   if (!req.body.password) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'password field is required.',
-    });
+    return resCode.set403(res, 'password field is required.');
   }
   if (!req.body.cpassword) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'cpassword field is required.',
-    });
+    return resCode.set403(res, 'cpassword field is required.');
   }
   if (req.body.password !== req.body.cpassword) {
-    return res.status(403).json({
-      status: 0,
-      code: 403,
-      message: 'The password confirm doesn\'t match.',
-    });
+    return resCode.set403(res, 'The password confirm doesn\'t match.');
   }
 
   const saltRounds = 10;
@@ -77,38 +53,20 @@ exports.store = async (req, res) => {
 
   const result = await UserModel.create(data);
   if (!result) {
-    res.status(422).json({
-      status: 0,
-      code: 422,
-      message: 'Unprocessable Entity.',
-    });
+    resCode.set422(res);
   } else {
-    res.status(201).json({
-      status: 1,
-      code: 201,
-      message: 'Created a new user.',
-      data: result,
-    });
+    resCode.set201(res, result, 'Created a new user.');
   }
 };
 
 exports.show = async (req, res) => {
   const userId = req.params.userId;
-  const data = await UserModel.findByPk(userId)
+  const result = await UserModel.findByPk(userId)
       .catch(console.error);
-  if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+  if (!result) {
+    resCode.set404(res);
   } else {
-    res.json({
-      status: 1,
-      code: 200,
-      message: 'OK.',
-      data: data,
-    });
+    resCode.set200(res, result);
   }
 };
 
@@ -118,11 +76,7 @@ exports.update = async (req, res) => {
   const data = await UserModel.findByPk(userId)
       .catch(console.error);
   if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+    resCode.set404(res);
   } else {
     data.set({
       name: req.body.name || data.name,
@@ -133,18 +87,9 @@ exports.update = async (req, res) => {
 
     const result = await data.save();
     if (!result) {
-      res.status(422).json({
-        status: 0,
-        code: 422,
-        message: 'Unprocessable Entity.',
-      });
+      resCode.set422(res);
     } else {
-      res.json({
-        status: 1,
-        code: 200,
-        message: `Updated. ID: ${userId}`,
-        data: result,
-      });
+      resCode.set200(res, result, `Updated. ID: ${userId}`);
     }
   }
 };
@@ -154,25 +99,13 @@ exports.destroy = async (req, res) => {
   const data = await UserModel.findByPk(userId)
       .catch(console.error);
   if (!data) {
-    res.status(404).json({
-      status: 0,
-      code: 404,
-      message: 'Data not found.',
-    });
+    resCode.set404(res);
   } else {
     const result = await data.destroy();
     if (!result) {
-      res.status(422).json({
-        status: 0,
-        code: 422,
-        message: 'Unprocessable Entity.',
-      });
+      resCode.set422(res);
     } else {
-      res.json({
-        status: 1,
-        code: 200,
-        message: `Deleted. ID: ${userId}`,
-      });
+      resCode.set200(res, result, `Deleted. ID: ${userId}`);
     }
   }
 };
