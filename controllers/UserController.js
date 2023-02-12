@@ -1,5 +1,5 @@
 const UserModel = require('../models/UserModel');
-const respAPI = require('../data/resources/respAPI');
+const respAPI = require('../resources/api/response');
 
 const bcrypt = require('bcrypt');
 

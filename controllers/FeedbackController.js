@@ -1,7 +1,7 @@
 // to-do: form validation
 
 const FeedbackModel = require('../models/FeedbackModel');
-const respAPI = require('../data/resources/respAPI');
+const respAPI = require('../resources/api/response');
 
 exports.index = async (req, res) => {
   const data = await FeedbackModel.findAll()

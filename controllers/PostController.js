@@ -1,6 +1,6 @@
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
-const respAPI = require('../data/resources/respAPI');
+const respAPI = require('../resources/api/response');
 
 exports.index = async (req, res) => {
   const data = await PostModel.findAll({

@@ -1,5 +1,5 @@
 const ProductModel = require('../models/ProductModel');
-const respAPI = require('../data/resources/respAPI');
+const respAPI = require('../resources/api/response');
 
 exports.index = async (req, res) => {
   const data = await ProductModel.findAll()
