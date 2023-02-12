@@ -5,10 +5,11 @@ const errors = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const errMessage = err.message || 'Something went wrong';
   res.status(statusCode).json({
-    success: false,
-    status: statusCode,
-    message: errMessage,
-    stack: base.env === 'development' ? err.stack : {},
+    code: statusCode,
+    errors: {
+      message: errMessage,
+      stack: base.env === 'development' ? err.stack : {},
+    },
   });
 };
 

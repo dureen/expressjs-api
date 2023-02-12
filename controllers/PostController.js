@@ -1,94 +1,92 @@
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
-const resCode = require('../data/resources/resCode');
+const respAPI = require('../data/resources/respAPI');
 
 exports.index = async (req, res) => {
-  const result = await PostModel.findAll({
+  const data = await PostModel.findAll({
     include: [{
       model: UserModel,
       attributes: ['name']},
     ],
   }).catch(console.error);
-  resCode.set200(res, result);
+  respAPI.respond(res, data);
 };
 
 //  to-do: form validation + slug string
 exports.store = async (req, res) => {
   // res.send('/POST');
   if (!req.body.userId) {
-    return resCode.set403(res, 'userId field is required.');
+    return respAPI.failForbidden(res, 'userId field is required.');
   }
   if (!req.body.title) {
-    return resCode.set403(res, 'title field is required.');
+    return respAPI.failForbidden(res, 'title field is required.');
   }
   if (!req.body.content) {
-    return resCode.set403(res, 'content field is required.');
+    return respAPI.failForbidden(res, 'content field is required.');
   }
 
-  const data = {
+  const data = await PostModel.create({
     userId: req.body.userId,
     title: req.body.title,
     slug: req.body.title,
     content: req.body.content,
     status: req.body.status || 0,
-  };
-
-  const result = await PostModel.create(data);
-  if (!result) {
-    resCode.set422(res);
+  });
+  if (!data) {
+    respAPI.fail(res, 'Unable to create a data.');
   } else {
-    resCode.set201(res, result);
+    respAPI.respondCreated(res, data);
   }
 };
 
 exports.show = async (req, res) => {
   const postId = req.params.postId;
-  const result = await PostModel.findByPk(postId)
+  const post = await PostModel.findByPk(postId)
       .catch(console.error);
-  if (!result) {
-    resCode.set404(res);
+  if (!post) {
+    respAPI.failNotFound(res);
   } else {
-    resCode.set200(res, result);
+    respAPI.respond(res, post);
   }
 };
 
 // to-do: form validation
 exports.update = async (req, res) => {
   const postId = req.params.postId;
-  const data = await PostModel.findByPk(postId)
+  const post = await PostModel.findByPk(postId)
       .catch(console.error);
-  if (!data) {
-    resCode.set404(res);
+  if (!post) {
+    respAPI.failNotFound(res);
   } else {
-    data.set({
-      userId: req.body.userId || data.userId,
-      title: req.body.title || data.title,
+    post.set({
+      userId: req.body.userId || post.userId,
+      title: req.body.title || post.title,
       // slug: req.body.title || post.slug, // should unique
-      content: req.body.content || data.content,
-      status: req.body.status || data.status,
+      content: req.body.content || post.content,
+      status: req.body.status || post.status,
     });
 
-    const result = await data.save();
-    if (!result) {
-      resCode.set422(res);
+    const data = await post.save();
+    if (!data) {
+      respAPI.fail(res, 'Unable to update a data');
     } else {
-      resCode.set200(res, result, `Updated. ID: ${postId}`);
+      respAPI.respond(res, data, `Updated. ID: ${postId}`);
     }
   }
 };
 
 exports.destroy = async (req, res) => {
   const postId = req.params.postId;
-  const data = await PostModel.findByPk(postId)
+  const post = await PostModel.findByPk(postId)
       .catch(console.error);
-  if (!data) {
-    resCode.set404(res);
+  if (!post) {
+    respAPI.failNotFound(res);
   } else {
-    const result = await data.destroy();
-    if (!result) {
-      resCode.set422(res);
+    const data = await post.destroy();
+    if (!data) {
+      respAPI.fail(res, 'Unable to delete a data');
     } else {
-      resCode.set200(res, result, `Deleted. ID: ${postId}`);
+      respAPI.respond(res, data, `Deleted. ID: ${postId}`);
     }
   }
 };

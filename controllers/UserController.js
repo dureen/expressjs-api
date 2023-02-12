@@ -1,5 +1,5 @@
 const UserModel = require('../models/UserModel');
-const resCode = require('../data/resources/resCode');
+const respAPI = require('../data/resources/respAPI');
 
 const bcrypt = require('bcrypt');
 
@@ -10,7 +10,7 @@ exports.index = async (req, res) => {
    * Reason : all default attributes are visible when using raw option
    * ---------------------------------------------------------------------------
    */
-  const result = await UserModel.findAll({
+  const data = await UserModel.findAll({
     attributes: [
       'id',
       'name',
@@ -19,93 +19,91 @@ exports.index = async (req, res) => {
       'level',
     ],
   }).catch(console.error);
-  resCode.set200(res, result);
+  respAPI.respond(res, data);
 };
 
 // to-do: validation
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return resCode.set403(res, 'name field is required.');
+    return respAPI.failForbidden(res, 'name field is required.');
   }
   if (!req.body.email) {
-    return resCode.set403(res, 'email field is required.');
+    return respAPI.failForbidden(res, 'email field is required.');
   }
   if (!req.body.password) {
-    return resCode.set403(res, 'password field is required.');
+    return respAPI.failForbidden(res, 'password field is required.');
   }
   if (!req.body.cpassword) {
-    return resCode.set403(res, 'cpassword field is required.');
+    return respAPI.failForbidden(res, 'cpassword field is required.');
   }
   if (req.body.password !== req.body.cpassword) {
-    return resCode.set403(res, 'The password confirm doesn\'t match.');
+    return respAPI.failForbidden(res, 'The password confirm doesn\'t match.');
   }
 
   const saltRounds = 10;
   const myPlaintextPassword = req.body.password;
   const hashedPassword = await bcrypt.hash(myPlaintextPassword, saltRounds);
 
-  const data = {
+  const data = await UserModel.create({
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
     level: 1,
-  };
-
-  const result = await UserModel.create(data);
-  if (!result) {
-    resCode.set422(res);
+  });
+  if (!data) {
+    respAPI.fail(res, 'Unable to create a data.');
   } else {
-    resCode.set201(res, result, 'Created a new user.');
+    respAPI.respondCreated(res, data, 'Created a new user.');
   }
 };
 
 exports.show = async (req, res) => {
   const userId = req.params.userId;
-  const result = await UserModel.findByPk(userId)
+  const user = await UserModel.findByPk(userId)
       .catch(console.error);
-  if (!result) {
-    resCode.set404(res);
+  if (!user) {
+    respAPI.failNotFound(res);
   } else {
-    resCode.set200(res, result);
+    respAPI.respond(res, user);
   }
 };
 
 // to-do: validation
 exports.update = async (req, res) => {
   const userId = req.params.userId;
-  const data = await UserModel.findByPk(userId)
+  const user = await UserModel.findByPk(userId)
       .catch(console.error);
-  if (!data) {
-    resCode.set404(res);
+  if (!user) {
+    respAPI.failNotFound(res);
   } else {
-    data.set({
-      name: req.body.name || data.name,
-      email: req.body.email || data.email,
-      password: req.body.password || data.password, // to-do: bycript
-      level: req.body.level || data.level,
+    user.set({
+      name: req.body.name || user.name,
+      email: req.body.email || user.email,
+      password: req.body.password || user.password, // to-do: bycript
+      level: req.body.level || user.level,
     });
 
-    const result = await data.save();
-    if (!result) {
-      resCode.set422(res);
+    const data = await user.save();
+    if (!data) {
+      respAPI.fail(res, 'Unable to update a data');
     } else {
-      resCode.set200(res, result, `Updated. ID: ${userId}`);
+      respAPI.respond(res, data, `Updated. ID: ${userId}`);
     }
   }
 };
 
 exports.destroy = async (req, res) => {
   const userId = req.params.userId;
-  const data = await UserModel.findByPk(userId)
+  const user = await UserModel.findByPk(userId)
       .catch(console.error);
-  if (!data) {
-    resCode.set404(res);
+  if (!user) {
+    respAPI.failNotFound(res);
   } else {
-    const result = await data.destroy();
-    if (!result) {
-      resCode.set422(res);
+    const data = await user.destroy();
+    if (!data) {
+      respAPI.fail(res, 'Unable to delete a data');
     } else {
-      resCode.set200(res, result, `Deleted. ID: ${userId}`);
+      respAPI.respond(res, data, `Deleted. ID: ${userId}`);
     }
   }
 };

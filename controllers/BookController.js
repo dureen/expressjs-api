@@ -1,76 +1,76 @@
 // to-do: form validation
 const BookModel = require('../models/BookModel');
-const resCode = require('../data/resources/resCode');
+const respAPI = require('../data/resources/respAPI');
 
 exports.index = async (req, res) => {
-  const result = await BookModel.findAll()
+  const data = await BookModel.findAll()
       .catch(console.error);
-  resCode.set200(res, result);
+  respAPI.respond(res, data);
 };
 
 exports.store = async (req, res) => {
   if (!req.body.name) {
-    return resCode.set403(res, 'name field is required.');
+    return respAPI.failForbidden(res, 'name field is required.');
   }
   if (!req.body.price) {
-    return resCode.set403(res, 'price field is required.');
+    return respAPI.failForbidden(res, 'price field is required.');
   }
 
-  const result = await BookModel.create({
+  const data = await BookModel.create({
     name: req.body.name,
     price: req.body.price,
   }).catch(console.error);
-  if (!result) {
-    resCode.set422(res);
+  if (!data) {
+    respAPI.fail(res, 'Unable to create a data.');
   } else {
-    resCode.set201(res, result);
+    respAPI.respondCreated(res, data);
   }
 };
 
 exports.show = async (req, res) => {
   const bookId = req.params.bookId;
-  const result = await BookModel.findByPk(bookId)
+  const book = await BookModel.findByPk(bookId)
       .catch(console.error);
-  if (!result) {
-    resCode.set404(res);
+  if (!book) {
+    respAPI.failNotFound(res);
   } else {
-    resCode.set200(res, result);
+    respAPI.respond(res, book);
   }
 };
 
 exports.update = async (req, res) => {
   const bookId = req.params.bookId;
-  const data = await BookModel.findByPk(bookId)
+  const book = await BookModel.findByPk(bookId)
       .catch(console.error);
-  if (!data) {
-    resCode.set404(res);
+  if (!book) {
+    respAPI.failNotFound(res);
   } else {
-    data.set({
-      name: req.body.name || data.name,
-      price: req.body.price || data.price,
+    book.set({
+      name: req.body.name || book.name,
+      price: req.body.price || book.price,
     });
 
-    const result = await data.save();
-    if (!result) {
-      resCode.set422(res);
+    const data = await book.save();
+    if (!data) {
+      respAPI.fail(res, 'Unable to update a data');
     } else {
-      resCode.set200(res, result, `Updated. ID: ${bookId}`);
+      respAPI.respond(res, data, `Updated. ID: ${bookId}`);
     }
   }
 };
 
 exports.destroy = async (req, res) => {
   const bookId = req.params.bookId;
-  const data = await BookModel.findByPk(bookId)
+  const book = await BookModel.findByPk(bookId)
       .catch(console.error);
-  if (!data) {
-    resCode.set404(res);
+  if (!book) {
+    respAPI.failNotFound(res);
   } else {
-    const result = await data.destroy();
-    if (!result) {
-      resCode.set422(res);
+    const data = await book.destroy();
+    if (!data) {
+      respAPI.fail(res, 'Unable to delete a data');
     } else {
-      resCode.set200(res, result, `Deleted. ID: ${bookId}`);
+      respAPI.respondDeleted(res, data, `Deleted. ID: ${bookId}`);
     }
   }
 };
