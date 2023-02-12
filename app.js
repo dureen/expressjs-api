@@ -29,9 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 routes(app);
 
-// error handler
-const ErrorHandler = require('./middlewares/ErrorHandler');
-app.use(ErrorHandler);
+// handlers
+const res404 = require('./handlers/router404');
+const errors = require('./handlers/errors');
+app.use(res404);
+app.use(errors);
 
 // exports.serve = () => {
 app.listen(base.port, () => {
