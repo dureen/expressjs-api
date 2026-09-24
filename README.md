@@ -1,20 +1,40 @@
-# expressjs-api
+# Express REST API
 
-## What is this?
+Simple Express.js REST API sample project.
 
-This is Express Js REST API example
+> **Recommended GitHub repo name:** `express-rest-api`
 
-## Documentation
-Run project:
+## Features
+
+- Express.js server
+- Multiple database options (MongoDB / MySQL / SQLite via Sequelize)
+- Session & cookie support
+- File upload support
+- Basic authentication helpers (bcrypt)
+
+## Requirements
+
+- Node.js 16+
+
+## Installation
+
+```bash
+npm install
+cp .env.example .env
+npm run dev
 ```
-$ npm run start
-```
 
-## Happy Coding!
+## Scripts
+
+| Command       | Description                |
+|---------------|----------------------------|
+| `npm run dev` | Start with nodemon         |
+| `npm start`   | Start production server    |
+
+## Note
+
+Dependencies are from 2022–2023. Consider updating packages (`npm outdated`) before using in production.
 
 ## License
-[MIT](LICENSE)
 
-### Support
-Hi, there! Do you think this repository worthy? If so then...
-Buy me a coffee [Click here](https://ko-fi.com/sandw)
+MIT
