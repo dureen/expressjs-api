@@ -1,13 +1,13 @@
 {
-  "name": "express-rest-api",
+  "name": "expressjs-api",
   "version": "1.0.0",
-  "description": "Express.js REST API sample project",
+  "description": "Express.js application with web pages and API endpoints",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "keywords": ["express", "rest", "api", "nodejs"],
+  "keywords": ["express", "nodejs", "api", "web"],
   "author": "dureen",
   "license": "MIT",
   "dependencies": {
